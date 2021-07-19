@@ -10,6 +10,8 @@ public class App {
     public static void main(String[] args) {
         Student student = new Student("James", "Bond", "007@mi.com");
         Student student1 = new Student("Bruce", "Wayne", "batman@gotham.com");
+        Student student2 = new Student("Ethan", "Hunt", "mission@impossible.com");
+
 
         Transaction transaction = null;
 
