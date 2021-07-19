@@ -1,45 +1,31 @@
+import dao.StudentDao;
 import entity.Student;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import utils.HibernateUtil;
 
 import java.util.List;
 
 
 public class App {
     public static void main(String[] args) {
-        Student student = new Student("James", "Bond", "007@mi.com");
-        Student student1 = new Student("Bruce", "Wayne", "batman@gotham.com");
+        StudentDao studentDao = new StudentDao();
+        Student student = new Student("Diana", "Prince", "wonder@women.com");
+        studentDao.saveStudent(student);
 
-        Transaction transaction = null;
+        studentDao.insertStudent();
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the student objects
-            session.save(student);
-            session.save(student1);
-            // commit transaction
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        // update student
+        Student student1 = new Student("Stirlitz", "Max", "striliz@sd6.com");
+        studentDao.updateStudent(student1);
 
+        // get students
+        List<Student> students = studentDao.getStudents();
+        students.forEach(s -> System.out.println(s.getFirstName()));
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Student> students = session.createQuery("from Student", Student.class).list();
-            students.forEach(s -> {
-                System.out.println("Print student email id : " + s.getEmail());
-            });
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        // get single student
+        Student student2 = studentDao.getStudent(1);
+        System.out.println(student2.getFirstName());
+
+        // delete student
+        studentDao.deleteStudent(1);
 
     }
 }
