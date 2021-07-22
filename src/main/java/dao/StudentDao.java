@@ -138,4 +138,49 @@ public class StudentDao {
             return session.createQuery("from Student", Student.class).list();
         }
     }
+
+    public void getStudentById(int id) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+
+            // get Student entity using get() method
+            Student student = session.get(Student.class, id);
+            System.out.println(student.getFirstName());
+            System.out.println(student.getEmail());
+
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+
+    public void loadStudentById(int id) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+
+            // get Student entity using load() method
+            Student student = session.load(Student.class, id);
+            System.out.println(student.getFirstName());
+            System.out.println(student.getEmail());
+
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+    }
+
 }
