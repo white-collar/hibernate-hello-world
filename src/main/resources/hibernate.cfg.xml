@@ -35,7 +35,7 @@
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
         <mapping class="entity.one.to.one.Instructor" />
-        <mapping class="entity.one.to.one.InstructorDetail" />
+        <mapping class="entity.one.to.many.Course" />
 
     </session-factory>
 

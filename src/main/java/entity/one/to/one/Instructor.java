@@ -1,15 +1,17 @@
 package entity.one.to.one;
 
+import entity.one.to.many.Course;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="instructor")
@@ -29,8 +31,16 @@ public class Instructor {
     @Column(name="email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "instructor", fetch = FetchType.LAZY)
-    private InstructorDetail instructorDetail;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Course> courses = new ArrayList<>();
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 
     public Instructor() {
 
@@ -74,19 +84,14 @@ public class Instructor {
         this.email = email;
     }
 
-    public InstructorDetail getInstructorDetail() {
-        return instructorDetail;
-    }
-
-    public void setInstructorDetail(InstructorDetail instructorDetail) {
-        this.instructorDetail = instructorDetail;
-    }
-
     @Override
     public String toString() {
-        return "Instructor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-                + ", instructorDetail=" + instructorDetail + "]";
+        return "Instructor{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", courses=" + courses +
+                '}';
     }
-
-
 }
